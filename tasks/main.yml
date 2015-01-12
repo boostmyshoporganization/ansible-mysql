@@ -1,7 +1,7 @@
 ---
 
 - name: Install Mysql
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=7200
   with_items:
     - mysql-server-{{ mysql.version }}
     - python-mysqldb
@@ -19,3 +19,5 @@
 - name: Configure the new password
   template: src=client_my.cnf.j2 dest=~/.my.cnf owner=root group=root mode=0600
   tags: mysql
+
+  # @todo add the tools for MySQL (mytop)
