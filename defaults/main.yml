@@ -1,0 +1,7 @@
+---
+
+mysql:
+  version: 5.6
+  root_password: your_password
+  variables:
+    - { name: bind-address, value: 127.0.0.1 }
