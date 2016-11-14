@@ -1,0 +1,12 @@
+---
+
+- name: "Download MySQL installer"
+  get_url:
+    url: http://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb
+    dest: /usr/src/mysql-apt-config_0.7.3-1_all.deb
+    mode: 0664
+  tags: mysql
+
+- name: "Install MySQL"
+  shell: export DEBIAN_FRONTEND=noninteractive && echo mysql-apt-config mysql-apt-config/enable-repo select mysql-5.7-dmr | debconf-set-selections && dpkg -i /usr/src/mysql-apt-config_0.7.3-1_all.deb
+  tags: mysql

@@ -1,0 +1,21 @@
+---
+
+- name: Install Mysql
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=7200
+  with_items:
+    - mysql-server-{{ mysql.version }}
+    - python-mysqldb
+  tags: mysql
+
+- name: Configure the root password
+  mysql_user: name=root password="{{ mysql.root_password }}" state=present priv=*.*:ALL,GRANT
+  tags: mysql
+
+- name: Configure MySQL server
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+  notify: restart mysql
+  tags: mysql
+
+- name: Configure the new password
+  template: src=client_my.cnf.j2 dest=~/.my.cnf owner=root group=root mode=0600
+  tags: mysql
